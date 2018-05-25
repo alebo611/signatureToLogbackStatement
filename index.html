@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>java signature to log statement</h3>
+
+<input size="105" type="text" id="myText" value="setGroupConfiguration(FracGroup group, float nrRacks, FracPattern pattern, TrayPos trayPos0, float volume0, TrayPos trayPos1, float volume1, TrayPos trayPos2, float volume2, TrayPos trayPos3, float volume3, TrayPos trayPos4, float volume4, TrayPos trayPos5, float volume5)">
+
+<p>Paste in the java method signature.</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+    var input = document.getElementById("myText").value;
+	
+	var leftParenthesisIndex = input.indexOf("(");
+	
+	var signaturePart = input.substring(0, leftParenthesisIndex);
+	var signatureParts = signaturePart.trim().split(" ");
+	var methodName = signatureParts[signatureParts.length - 1];
+	var logStatement = "logger.info(\"" + methodName + "(";
+	
+	var rightParenthesisIndex = input.indexOf(")");
+	
+	var params = input.slice(leftParenthesisIndex + 1, rightParenthesisIndex);
+	
+	var paramsArray = params.split(",");
+	
+	
+	for(var i = 0; i < paramsArray.length; i++){
+		var param = paramsArray[i];
+		var parts = param.trim().split(" ");
+		console.log(parts[1]);
+		var paramName = parts[1];
+		logStatement = logStatement.concat(paramName + "={}" );
+		
+		if (i != paramsArray.length - 1) {
+			logStatement = logStatement.concat(", ");
+		}
+	
+	}
+	
+	logStatement = logStatement.concat(")\"");
+	
+	for(var i = 0; i < paramsArray.length; i++){
+		var param = paramsArray[i];
+		var parts = param.trim().split(" ");
+		console.log(parts[1]);
+		var paramName = parts[1];
+		
+		logStatement = logStatement.concat(", "+paramName);
+	}
+	
+	logStatement = logStatement.concat(");");
+	
+	
+	
+	document.getElementById("demo").style.font = "16px monospace";
+	
+    document.getElementById("demo").innerHTML = logStatement;
+}
+</script>
+
+</body>
+</html>
